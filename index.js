@@ -1,8 +1,19 @@
 
 const player = document.getElementById("player");
 const computer = document.getElementById("computer");
+const tie = document.getElementById("tie");
 const total = document.getElementById("total");
-// Get the choice of the computer
+const pChoice = document.getElementById("pChoice");
+const cChoice = document.getElementById("cChoice")
+
+let playerScore = 0;
+let computerScore = 0;
+let tieScore = 0;
+let number = 0;
+
+
+
+// To get the choice of the computer
 function getComputerChoice(){
     let option = ["rock","paper","scissors"];
     let a = Math.floor(Math.random()*option.length);
@@ -12,84 +23,108 @@ function getComputerChoice(){
 }
 
 
-// Play a round
-function playRound(){
-    let playerSelection =  prompt("Choose one: Rock Paper Scissors ").toLocaleLowerCase();
-    console.log(playerSelection);
 
+
+
+function playRound(playerSelection){
+    
     let computerSelection = getComputerChoice();
-    console.log(computerSelection)
+    pChoice.textContent = `Player's choice : ${playerSelection}`;
+    cChoice.textContent = `Computer's choice : ${computerSelection}`;
+
+    let result = "";
 
     if(playerSelection === computerSelection){
-        alert("It is a tie");
+        console.log("tie")
+        result  =  "Tie";
     }
     else if(playerSelection === "rock"){
         if(computerSelection === "paper"){
-            alert("You have lost");
-            return false;
+        
+            result = "lose";
         }
         else if(computerSelection === "scissors"){
-            alert("You have won");
-            return true;
+            result = "win";
         }
         
     }
     else if(playerSelection === "paper"){
         if(computerSelection === "rock"){
-            alert("You have won");
-            return true;
+            result = "win";
         }
         else if(computerSelection === "scissors"){
-            alert("You have lost");
-            return false;
+        
+            result = "lose";
         }
         
     }
     else if(playerSelection === "scissors"){
         if(computerSelection === "rock"){
-            alert("You have lost");
-            return false;
+        
+            result = "lose";
         }
         else if(computerSelection === "paper"){
-            alert("You have won");
-            return true;
+            result =  "win";
         }
         
     }
-    
-    else{
-        alert("Please enter a valid input");
+
+    // to get the score of player, computer, and tie
+    if(result === "win"){
+        playerScore ++;
+        console.log(playerScore);
+        player.textContent = `Player's score: ${playerScore}`;
+    }
+    else if(result === "lose"){
+        computerScore++;
+        console.log(computerScore);
+        computer.textContent = `Computers's score: ${computerScore}`;
+    }
+    else if(result === "Tie"){
+        tieScore++;
+        tie.textContent = `Tie's score: ${tieScore}`;
+    }
+    // to determine the winner of the game after 5 rounds
+    number++;
+
+    if(number === 5 && playerScore > computerScore){
+        playerScore = 0;
+        player.textContent = `Player's score: ${playerScore}`;
+        computerScore = 0;
+        computer.textContent = `Computers's score: ${computerScore}`;
+        tieScore = 0;
+        tie.textContent = `Tie's score: ${tieScore}`;
+        alert("You Win!!");
+        number = 0;
+        pChoice.textContent = "Player's choice :";
+        cChoice.textContent = "Computer's choice :";
+        
+    }
+    else if(number === 5 && playerScore < computerScore){
+        playerScore = 0;
+        player.textContent = `Player's score: ${playerScore}`;
+        computerScore = 0;
+        computer.textContent = `Computers's score: ${computerScore}`;
+        tieScore = 0;
+        tie.textContent = `Tie's score: ${tieScore}`;
+        alert(`You lose`);
+        number = 0;
+        pChoice.textContent = "Player's choice :";
+        cChoice.textContent = "Computer's choice :";
+        
+    }
+    else if(number === 5 && playerScore === computerScore){
+        playerScore = 0;
+        player.textContent = `Player's score: ${playerScore}`;
+        computerScore = 0;
+        computer.textContent = `Computers's score: ${computerScore}`;
+        tieScore = 0;
+        tie.textContent = `Tie's score: ${tieScore}`;
+        alert("It's a Tie");
+        number = 0;
+        pChoice.textContent = "Player's choice :";
+        cChoice.textContent = "Computer's choice :";
+        
     }
 }
 
-// A game of 5 rounds
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    let playRoundReturn = 0;
-
-    for(let i = 1; i < 6; i++){
-        playRoundReturn = playRound(i);
-        if(playRoundReturn === true){
-            playerScore ++;
-            console.log(playerScore);
-            player.textContent = `Player's score: ${playerScore}`;
-        }
-        else if(playRoundReturn === false){
-            computerScore++
-            console.log(computerScore);
-            computer.textContent = `Computers's score: ${computerScore}`;
-    }
-    }
-
-    
-
-    if(playerScore > computerScore){
-        total.textContent = `Congrats you have won the game`;
-    }
-    else if(playerScore < computerScore){
-        total.textContent = `Sorry you lost. Better luck next time`;
-    }
-}
-
-game();
